@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Service\OpenWeatherDataService;
+use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -37,7 +38,16 @@ class WeatherController extends AbstractController
         $api_key = $request->get('api_key');
         $city = $request->get('city');
 
-        $weatherData = $weatherDataService->getWeatherData($api_key, $city);
+
+        try {
+            $weatherData = $weatherDataService->getWeatherData($api_key, $city);
+        } catch (GuzzleException $e) {
+            return new Response(
+                json_encode(
+                    array('status'=>'failure', 'data' => "please, correct the form data")
+                )
+            );
+        }
         $weatherData = array_merge(['city' => $city], $weatherData);
 
         return new Response(

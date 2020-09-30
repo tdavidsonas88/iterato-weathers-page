@@ -6,10 +6,21 @@ namespace App\Service;
 
 use DateTime;
 use DateTimeZone;
+use Exception;
 use GuzzleHttp\Client;
+use GuzzleHttp\Exception\GuzzleException;
 
 class OpenWeatherDataService implements WeatherDataInterface
 {
+    /**
+     * gets the data from external provider
+     *
+     * @param string $api_key
+     * @param string $city
+     * @return mixed|null
+     * @throws GuzzleException
+     * @throws Exception
+     */
     public function getWeatherData(string $api_key, string $city)
     {
         $client = new Client([
@@ -21,9 +32,11 @@ class OpenWeatherDataService implements WeatherDataInterface
     }
 
     /**
+     * gets the forcast data related to the current hour from the list of provider timestamps
+     *
      * @param $cityForecast
      * @return mixed|null
-     * @throws \Exception
+     * @throws Exception
      */
     private function getCurrentWeatherData($cityForecast)
     {
