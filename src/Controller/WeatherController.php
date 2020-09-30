@@ -2,14 +2,18 @@
 
 namespace App\Controller;
 
+use App\Service\WeatherDataService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 class WeatherController extends AbstractController
 {
     /**
-     * @Route("/weather", name="weather")
+     * renders form page for data input
+     *
+     * @Route("/", name="weather")
      */
     public function index()
     {
@@ -19,10 +23,27 @@ class WeatherController extends AbstractController
     }
 
     /**
+     * handles AJAX request from twig form
+     *
+     *
      * @Route("/weather/data", name="weather_data")
+     * @param Request $request
+     * @param WeatherDataService $weatherDataService
+     * @return Response
      */
-    public function getWeatherData()
+    public function getWeatherData(Request $request, WeatherDataService $weatherDataService
+    )
     {
-        return new Response(json_encode(array('status'=>'success', 'data' => ['data success fully returned'])));
+        $api_key = $request->get('api_key');
+        $city = $request->get('city');
+
+        $weatherData = $weatherDataService->getWeatherData($api_key, $city);
+        $weatherData = array_merge(['city' => $city], $weatherData);
+
+        return new Response(
+            json_encode(
+                array('status'=>'success', 'data' => $weatherData)
+            )
+        );
     }
 }
