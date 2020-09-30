@@ -25,7 +25,26 @@
             </div>
         </form>
 
-        <ul class="nav nav-tabs"></ul>
+        <nav>
+            <div class="nav nav-tabs" id="nav-tab" role="tablist"></div>
+            <div class="tab-content" id="nav-tabContent"></div>
+        </nav>
+
+
+{#            <nav>#}
+{#                <div class="nav nav-tabs" id="nav-tab" role="tablist">#}
+{#                    <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Home</a>#}
+{#                    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Profile</a>#}
+{#                    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Contact</a>#}
+{#                </div>#}
+{#            </nav>#}
+{#            <div class="tab-content" id="nav-tabContent">#}
+{#                <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">...</div>#}
+{#                <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>#}
+{#                <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>#}
+{#            </div>#}
+
+{#        </div>#}
     </div>
 {% endblock %}
 
@@ -40,16 +59,41 @@
                 $.post(url, formSerialize, function(response) {
                     let data = response.data;
                     console.log(data);
+
+                    $(".nav-item").removeClass("active");
+                    $(".tab-pane").removeClass("active");
+
                     $( ".nav-tabs" ).append(
-                        "<li class=\"nav-item\">" +
-                            "<a class=\"nav-link active\" href=\"#\">"
-                                + data.city +
-                            "</a>" +
-                        "</li>"
-                    )
-                    ;
+                        "<a class=\"nav-item nav-link active\" id=\"nav-" + data.city + "-tab\" data-toggle=\"tab\" " +
+                        "href=\"#nav-" + data.city + "\" role=\"tab\" aria-controls=\"nav-" + data.city + "\"" +
+                        " aria-selected=\"true\">" + data.city + "</a>"
+                        // "<a class=\"nav-item nav-link active\" id=\"nav-" + data.city +
+                        //     "-tab\" data-toggle=\"tab\" href=\"#nav-"
+                        //     + data.city + " role=\"tab\" aria-controls=\"nav-" +data.city + "\" aria-selected=\"true\">"
+                        //     + data.city +
+                        // "</a>"
+                    );
+
+                    $( ".tab-content" ).append(
+                        "<div " +
+                            "class=\"tab-pane fade show active\" " +
+                            "id=\"nav-" + data.city + "\" role=\"tabpanel\" " +
+                            "aria-labelledby=\"nav-" + data.city +"-tab\">" +
+                            "<br>" + "Oro temperatūra: " + data.airTemperature + "<br>" +
+                            "Vėjo greitis: " + data.windSpeed + "<br>" +
+                        "</div>"
+                    );
+
                 }, 'JSON');
             });
+
+            // $("a.nav-item").on("click", function(e) {
+            //     alert('test');
+            //     e.preventDefault();
+            //     $(".tab-pane").removeClass("active");
+            //     $(this).addClass('active');
+            // });
+
         });
     </script>
 {% endblock %}

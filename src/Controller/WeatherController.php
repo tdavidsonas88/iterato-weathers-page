@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Service\WeatherDataService;
+use App\Service\OpenWeatherDataService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -28,10 +28,10 @@ class WeatherController extends AbstractController
      *
      * @Route("/weather/data", name="weather_data")
      * @param Request $request
-     * @param WeatherDataService $weatherDataService
+     * @param OpenWeatherDataService $weatherDataService
      * @return Response
      */
-    public function getWeatherData(Request $request, WeatherDataService $weatherDataService
+    public function getWeatherData(Request $request, OpenWeatherDataService $weatherDataService
     )
     {
         $api_key = $request->get('api_key');

@@ -8,7 +8,7 @@ use DateTime;
 use DateTimeZone;
 use GuzzleHttp\Client;
 
-class WeatherDataService
+class OpenWeatherDataService implements WeatherDataInterface
 {
     public function getWeatherData(string $api_key, string $city)
     {
