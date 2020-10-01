@@ -41,9 +41,15 @@
                 let formSerialize = $(this).serialize();
 
                 $.post(url, formSerialize, function(response) {
-
                     console.log(response);
+
                     let data = response.data;
+                    if ($("a.nav-item").text().indexOf(data.city) >= 0) {
+                        alert('City is already added!');
+                        $('#city').val('');
+                        return;
+                    }
+
                     if (response.status === "success") {
                         $(".nav-item").removeClass("active");
                         $(".tab-pane").removeClass("active");
