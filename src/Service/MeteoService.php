@@ -10,19 +10,18 @@ use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 
-class OpenWeatherDataService implements WeatherDataInterface
+class MeteoService implements WeatherDataInterface
 {
 
     /**
      * gets the data from external provider
      *
-     * @param string $api_key
      * @param string $city
      * @return mixed|null
      * @throws GuzzleException
      * @throws Exception
      */
-    public function getWeatherData(string $api_key, string $city)
+    public function getWeatherData(string $city)
     {
         $client = new Client([
             'base_uri' => 'https://api.meteo.lt/v1/places/'.$city.'/forecasts/long-term',

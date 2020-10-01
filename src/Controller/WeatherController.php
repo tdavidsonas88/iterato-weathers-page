@@ -43,7 +43,7 @@ class WeatherController extends AbstractController
         try {
             /** @var WeatherDataInterface $weatherDataService */
             $weatherDataService = $weatherServiceFactory->make('open_weather');
-            $weatherData = $weatherDataService->getWeatherData($api_key, $city);
+            $weatherData = $weatherDataService->getWeatherData($city, $api_key);
         } catch (GuzzleException $e) {
             return new Response(
                 json_encode(
