@@ -12,6 +12,7 @@ use GuzzleHttp\Exception\GuzzleException;
 
 class OpenWeatherDataService implements WeatherDataInterface
 {
+
     /**
      * gets the data from external provider
      *

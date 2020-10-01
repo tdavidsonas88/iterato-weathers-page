@@ -2,7 +2,8 @@
 
 namespace App\Controller;
 
-use App\Service\OpenWeatherDataService;
+use App\Service\Factory\WeatherServiceFactory;
+use App\Service\WeatherDataInterface;
 use GuzzleHttp\Exception\GuzzleException;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -29,10 +30,10 @@ class WeatherController extends AbstractController
      *
      * @Route("/weather/data", name="weather_data")
      * @param Request $request
-     * @param OpenWeatherDataService $weatherDataService
+     * @param WeatherServiceFactory $weatherServiceFactory
      * @return Response
      */
-    public function getWeatherData(Request $request, OpenWeatherDataService $weatherDataService
+    public function getWeatherData(Request $request, WeatherServiceFactory $weatherServiceFactory
     )
     {
         $api_key = $request->get('api_key');
@@ -40,6 +41,8 @@ class WeatherController extends AbstractController
 
 
         try {
+            /** @var WeatherDataInterface $weatherDataService */
+            $weatherDataService = $weatherServiceFactory->make('open_weather');
             $weatherData = $weatherDataService->getWeatherData($api_key, $city);
         } catch (GuzzleException $e) {
             return new Response(
